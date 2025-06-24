@@ -65,6 +65,7 @@
             color: var(--primary-color);
             text-decoration: none;
             transition: color 0.3s ease;
+            cursor: pointer; /* Added for interactivity */
         }
 
         .logo:hover {
@@ -87,6 +88,7 @@
             font-size: 1.1em;
             position: relative;
             transition: color 0.3s ease;
+            cursor: pointer; /* Added for interactivity */
         }
 
         nav ul li a::after {
@@ -416,6 +418,93 @@
             color: var(--white);
         }
 
+        /* Contact Form Specific Styles */
+        #contactForm {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .form-group {
+            text-align: left;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .form-group label {
+            font-size: 1em;
+            margin-bottom: 8px;
+            color: var(--white);
+            font-weight: 600;
+        }
+
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 5px;
+            background-color: rgba(255, 255, 255, 0.05);
+            color: var(--white);
+            font-family: var(--body-font);
+            font-size: 1em;
+            transition: border-color 0.3s ease, background-color 0.3s ease;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: var(--accent-color);
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+
+        .form-group textarea {
+            resize: vertical; /* Allow vertical resizing */
+        }
+
+        #contactForm button {
+            background-color: var(--accent-color);
+            color: var(--white);
+            padding: 15px 25px;
+            border: none;
+            border-radius: 5px;
+            font-size: 1.1em;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+            align-self: center; /* Center the button */
+        }
+
+        #contactForm button:hover {
+            background-color: #008c9e; /* Darker cyan on hover */
+            transform: translateY(-2px);
+        }
+
+        .form-message {
+            margin-top: 20px;
+            font-size: 1em;
+            font-weight: 600;
+            text-align: center;
+            padding: 10px;
+            border-radius: 5px;
+        }
+
+        .form-message.success {
+            background-color: rgba(0, 255, 0, 0.2);
+            color: #00ff00;
+        }
+
+        .form-message.error {
+            background-color: rgba(255, 0, 0, 0.2);
+            color: #ff0000;
+        }
+
         /* # Footer */
         footer {
             background-color: var(--secondary-color);
@@ -623,7 +712,7 @@
     </header>
 
     <section id="hero">
-        <img id="hero-bg" src="img75840.PNG" alt="Abstract Cyan Dots Background">
+        <img id="hero-bg" src="img75840.PNG" alt="Abstract Cyan Dots Background" data-lightbox="false">
         <div id="hero-content">
             <h1>Michael Harris</h1>
             <p>Graphic Design | Digital Media</p>
@@ -647,9 +736,9 @@
                     <p>Vector Illustration Software Proficiency.</p>
                 </div>
                 <div class="project-images">
-                    <img src="img76000.JPG" alt='Digital Art "Corium"' data-caption="">
-                    <img src="img75990.JPG" alt='Print Design "Digital"' data-caption="">
-                    <img src="img871.JPG" alt="Abstract Design #761" data-caption="">
+                    <img src="img76000.JPG" alt='Digital Art "Corium"' data-caption="Digital Art: Corium">
+                    <img src="img75990.JPG" alt='Print Design "Digital"' data-caption="Print Design: Digital">
+                    <img src="img871.JPG" alt="Abstract Design #761" data-caption="Abstract Design #761">
                 </div>
             </div>
 
@@ -664,11 +753,11 @@
                         <img src="img76030.JPG" alt="Grip Tape Design" data-caption="Matching Grip Tape Design">
                     </div>
                     <div class="concept-panorama">
-                        <img class="panorama-slide" src="img76140.jpg" alt="Concept Illustration 1" data-caption=" Concept sketch 1">
-                        <img class="panorama-slide" src="img76160.jpg" alt="Concept Illustration 2" data-caption=" Concept sketch 2">
-                        <img class="panorama-slide" src="img7617.JPG" alt="Concept Illustration 3" data-caption=" Concept sketch 3">
+                        <img class="panorama-slide" src="img76140.jpg" alt="Concept Illustration 1" data-caption="Concept sketch 1">
+                        <img class="panorama-slide" src="img76160.jpg" alt="Concept Illustration 2" data-caption="Concept sketch 2">
+                        <img class="panorama-slide" src="img7617.JPG" alt="Concept Illustration 3" data-caption="Concept sketch 3">
                         <div class="panorama-dots">
-                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -690,10 +779,29 @@
     <section id="contact" class="animated-section">
         <div class="container">
             <h2>Get in Touch</h2>
-            <p></p>
-            <p><a href="mailto:michael.harri765@gmail.com">michael.harri765@gmail.com</a></p>
-            </div>
+            <form id="contactForm">
+                <div class="form-group">
+                    <label for="name">Name</label>
+                    <input type="text" id="name" name="name" required>
+                </div>
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input type="email" id="email" name="email" required>
+                </div>
+                <div class="form-group">
+                    <label for="subject">Subject</label>
+                    <input type="text" id="subject" name="subject" required>
+                </div>
+                <div class="form-group">
+                    <label for="message">Message</label>
+                    <textarea id="message" name="message" rows="6" required></textarea>
+                </div>
+                <button type="submit">Send Message</button>
+                <div id="formMessage" class="form-message"></div>
+            </form>
+        </div>
     </section>
+
 
     <footer>
         <div class="container">
@@ -704,7 +812,7 @@
     <div id="lightboxOverlay" class="lightbox-overlay">
         <span class="close-lightbox">&times;</span>
         <div class="lightbox-content">
-            <img id="lightboxImage" src="img75840.PNG" alt="Enlarged Project Image">
+            <img id="lightboxImage" src="" alt="">
             <div id="lightboxCaption" class="lightbox-caption"></div>
         </div>
     </div>
@@ -736,7 +844,8 @@
             const lightboxImage = document.getElementById('lightboxImage');
             const lightboxCaption = document.getElementById('lightboxCaption');
             const closeLightbox = document.querySelector('.close-lightbox');
-            const projectImages = document.querySelectorAll('.project-images img');
+            // Select all project images *except* those with data-lightbox="false"
+            const projectImages = document.querySelectorAll('.project-images img:not([data-lightbox="false"])');
 
             projectImages.forEach(img => {
                 img.addEventListener('click', function() {
@@ -826,12 +935,59 @@
             panoramaContainer.addEventListener('mouseleave', startCarousel);
         };
 
+        // # Contact Form Functionality
+        const setupContactForm = () => {
+            const contactForm = document.getElementById('contactForm');
+            const formMessage = document.getElementById('formMessage');
+
+            if (!contactForm) return; // Exit if form not found
+
+            contactForm.addEventListener('submit', function(e) {
+                e.preventDefault(); // Prevent default form submission
+
+                // In a real scenario, you would send this data to a server using fetch() or XMLHttpRequest
+                // For this example, we'll just simulate a successful submission.
+
+                const name = document.getElementById('name').value;
+                const email = document.getElementById('email').value;
+                const subject = document.getElementById('subject').value;
+                const message = document.getElementById('message').value;
+
+                console.log('Form Submitted!');
+                console.log('Name:', name);
+                console.log('Email:', email);
+                console.log('Subject:', subject);
+                console.log('Message:', message);
+
+                // Simulate API call delay
+                setTimeout(() => {
+                    // Show success message
+                    formMessage.textContent = 'Thank you for your message! We will get back to you soon.';
+                    formMessage.classList.remove('error');
+                    formMessage.classList.add('success');
+                    contactForm.reset(); // Clear the form
+
+                    // Hide message after a few seconds
+                    setTimeout(() => {
+                        formMessage.textContent = '';
+                        formMessage.classList.remove('success');
+                    }, 5000);
+                }, 1000);
+
+                // In case of an actual error (e.g., network issue, server error)
+                // formMessage.textContent = 'Oops! Something went wrong. Please try again later.';
+                // formMessage.classList.remove('success');
+                // formMessage.classList.add('error');
+            });
+        };
+
 
         // # Initialize all functionalities when the DOM is loaded
         document.addEventListener('DOMContentLoaded', () => {
             animateOnScroll();
             setupLightbox();
             setupPanoramaCarousel();
+            setupContactForm();
         });
     </script>
 </body>
