@@ -696,6 +696,9 @@
         }
 
     </style>
+<script src="https://www.google.com/recaptcha/api.js" async defer></script>
+</head>
+<body>
 </head>
 <body>
     <header>
@@ -712,6 +715,7 @@
     </header>
 
     <section id="hero">
+        <!-- Make sure 'img75840.PNG' is in the same directory or adjust the path -->
         <img id="hero-bg" src="img75840.PNG" alt="Abstract Cyan Dots Background" data-lightbox="false">
         <div id="hero-content">
             <h1>Michael Harris</h1>
@@ -736,6 +740,7 @@
                     <p>Vector Illustration Software Proficiency.</p>
                 </div>
                 <div class="project-images">
+                    <!-- Ensure these image paths are correct -->
                     <img src="img76000.JPG" alt='Digital Art "Corium"' data-caption="Digital Art: Corium">
                     <img src="img75990.JPG" alt='Print Design "Digital"' data-caption="Print Design: Digital">
                     <img src="img871.JPG" alt="Abstract Design #761" data-caption="Abstract Design #761">
@@ -749,10 +754,12 @@
                 </div>
                 <div class="project-images">
                     <div class="product-display">
+                        <!-- Ensure these image paths are correct -->
                         <img src="img76020.JPG" alt="Skateboard Deck Design" data-caption="Custom Skateboard Deck Design">
                         <img src="img76030.JPG" alt="Grip Tape Design" data-caption="Matching Grip Tape Design">
                     </div>
                     <div class="concept-panorama">
+                        <!-- Ensure these image paths are correct -->
                         <img class="panorama-slide" src="img76140.jpg" alt="Concept Illustration 1" data-caption="Concept sketch 1">
                         <img class="panorama-slide" src="img76160.jpg" alt="Concept Illustration 2" data-caption="Concept sketch 2">
                         <img class="panorama-slide" src="img7617.JPG" alt="Concept Illustration 3" data-caption="Concept sketch 3">
@@ -769,6 +776,7 @@
                     <p><strong>Context:</strong> The Jackson State University Tigers took on the Texas Southern University Tigers and achieved an impressive 43-13 points victory.</p>
                 </div>
                 <div class="project-images">
+                    <!-- Ensure this image path is correct -->
                     <img src="img76100.JPG" alt="Cartoonist Submission - Football Recap" data-caption="Sunday Recap University Newspaper Cartoon">
                 </div>
             </div>
@@ -779,14 +787,16 @@
     <section id="contact" class="animated-section">
         <div class="container">
             <h2>Get in Touch</h2>
-            <form id="contactForm">
+            <!-- FORM HAS BEEN UPDATED FOR FORMSPREE INTEGRATION -->
+            <!-- IMPORTANT: Replace 'YOUR_FORMSPREE_ENDPOINT' with your actual Formspree form ID -->
+            <form id="contactForm" action="https://formspree.io/f/https://formspree.io/f/xvgrvnae" method="POST">
                 <div class="form-group">
                     <label for="name">Name</label>
                     <input type="text" id="name" name="name" required>
                 </div>
                 <div class="form-group">
                     <label for="email">Email</label>
-                    <input type="email" id="email" name="email" required>
+                    <input type="email" id="email" name="_replyto" required> <!-- "_replyto" is important for Formspree -->
                 </div>
                 <div class="form-group">
                     <label for="subject">Subject</label>
@@ -796,12 +806,20 @@
                     <label for="message">Message</label>
                     <textarea id="message" name="message" rows="6" required></textarea>
                 </div>
+                <div class="form-group">
+                <label for="message">Message</label>
+                <textarea id="message" name="message" rows="6" required></textarea>
+            </div>
+
+            <div class="g-recaptcha" data-sitekey="6LcTsG4rAAAAAAJRXm4NtHe8Sbb4JFMWwruoO75r"></div>
+            <button type="submit">Send Message</button>
+            <div id="formMessage" class="form-message"></div>
+        </form>
                 <button type="submit">Send Message</button>
                 <div id="formMessage" class="form-message"></div>
             </form>
         </div>
     </section>
-
 
     <footer>
         <div class="container">
@@ -935,52 +953,58 @@
             panoramaContainer.addEventListener('mouseleave', startCarousel);
         };
 
-        // # Contact Form Functionality
+        // # Contact Form Functionality for Formspree
         const setupContactForm = () => {
             const contactForm = document.getElementById('contactForm');
             const formMessage = document.getElementById('formMessage');
 
-            if (!contactForm) return; // Exit if form not found
+            if (!contactForm) return;
 
-            contactForm.addEventListener('submit', function(e) {
+            contactForm.addEventListener('submit', async function(e) {
                 e.preventDefault(); // Prevent default form submission
 
-                // In a real scenario, you would send this data to a server using fetch() or XMLHttpRequest
-                // For this example, we'll just simulate a successful submission.
+                const formData = new FormData(contactForm);
 
-                const name = document.getElementById('name').value;
-                const email = document.getElementById('email').value;
-                const subject = document.getElementById('subject').value;
-                const message = document.getElementById('message').value;
+                try {
+                    const response = await fetch(contactForm.action, {
+                        method: contactForm.method,
+                        body: formData,
+                        headers: {
+                            'Accept': 'application/json' // Essential for Formspree's JSON response
+                        }
+                    });
 
-                console.log('Form Submitted!');
-                console.log('Name:', name);
-                console.log('Email:', email);
-                console.log('Subject:', subject);
-                console.log('Message:', message);
-
-                // Simulate API call delay
-                setTimeout(() => {
-                    // Show success message
-                    formMessage.textContent = 'Thank you for your message! We will get back to you soon.';
-                    formMessage.classList.remove('error');
-                    formMessage.classList.add('success');
-                    contactForm.reset(); // Clear the form
-
-                    // Hide message after a few seconds
+                    if (response.ok) { // Check if the response status is 200-299 (success)
+                        formMessage.textContent = 'Thank you for your message! We will get back to you soon.';
+                        formMessage.classList.remove('error');
+                        formMessage.classList.add('success');
+                        contactForm.reset(); // Clear the form fields
+                    } else {
+                        // Handle server-side errors or Formspree specific errors
+                        const data = await response.json(); // Try to parse JSON for more details
+                        if (data.errors) {
+                            formMessage.textContent = data.errors.map(error => error.message).join(', ');
+                        } else {
+                            formMessage.textContent = 'Oops! Something went wrong. Please try again later.';
+                        }
+                        formMessage.classList.remove('success');
+                        formMessage.classList.add('error');
+                    }
+                } catch (error) {
+                    // Handle network errors
+                    console.error('Network or fetch error:', error);
+                    formMessage.textContent = 'Network error. Please check your internet connection and try again.';
+                    formMessage.classList.remove('success');
+                    formMessage.classList.add('error');
+                } finally {
+                    // Hide message after a few seconds, regardless of success or failure
                     setTimeout(() => {
                         formMessage.textContent = '';
-                        formMessage.classList.remove('success');
+                        formMessage.classList.remove('success', 'error');
                     }, 5000);
-                }, 1000);
-
-                // In case of an actual error (e.g., network issue, server error)
-                // formMessage.textContent = 'Oops! Something went wrong. Please try again later.';
-                // formMessage.classList.remove('success');
-                // formMessage.classList.add('error');
+                }
             });
         };
-
 
         // # Initialize all functionalities when the DOM is loaded
         document.addEventListener('DOMContentLoaded', () => {
